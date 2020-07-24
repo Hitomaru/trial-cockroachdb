@@ -12,8 +12,33 @@ services:
     command:
       - start
       - "--insecure"
+      - "--join=roach1,roach2,roach3"
     volumes:
       - "./tmp/cockroach-data/roach1:/cockroach/cockroach-data"
+  cockroachdb_2:
+    image: cockroachdb/cockroach:v19.2.4
+    container_name: roach2
+    networks:
+      - roachnet
+    restart: always
+    command:
+      - start
+      - "--insecure"
+      - "--join=roach1,roach2,roach3"
+    volumes:
+      - "./tmp/cockroach-data/roach2:/cockroach/cockroach-data"
+  cockroachdb_3:
+    image: cockroachdb/cockroach:v19.2.4
+    container_name: roach3
+    networks:
+      - roachnet
+    restart: always
+    command:
+      - start
+      - "--insecure"
+      - "--join=roach1,roach2,roach3"
+    volumes:
+      - "./tmp/cockroach-data/roach3:/cockroach/cockroach-data"
 networks:
   roachnet:
     driver: bridge
